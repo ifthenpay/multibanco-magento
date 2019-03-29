@@ -1,0 +1,22 @@
+1. Entrar na área de Administração do seu Magento como Administrador.
+
+2. Ir ao Magento Connect navegando nos menús "System > Magento Connect > Magento Connect Manager" (se a sua área de 
+administração estiver em português deverá ser algo do género: "Sistema > Magento Connect > Gestor Magento Connect").
+	
+3. Dentro do Magento Connect na seccção "Direct package file upload" (se o seu Magento Connect estiver em português 
+deverá ser algo do género "Upload directo de pacotes")
+
+	3.1 Clicar onde diz "Escolher ficheiro" e indicar o ficheiro Ifthenpay_Ifmb-5.0.1.tgz
+	
+	3.2 Clicar no botão "Upload"
+	
+4. Após instalação clicar no botão "Return to Admin" (se o seu Magento Connect estiver em português 
+deverá ser algo do género "Voltar à Administração") no canto superior direito
+
+5. Navegar pelos menús "System > Configuration" (se a sua área de administração estiver em português deverá ser algo do 
+género: "Sistema > Configuração").
+
+6. Na área de configuração do sistema, na lateral esquerda ir à secção "Sales" ("Vendas" caso o seu magento esteja em português)
+e clicar em "Payment Methods" ("Métodos de Pagamento" em português)
+
+7. Configurar o método de pagamento da Ifthenpay com os dados fornecidos no ato da adesão.

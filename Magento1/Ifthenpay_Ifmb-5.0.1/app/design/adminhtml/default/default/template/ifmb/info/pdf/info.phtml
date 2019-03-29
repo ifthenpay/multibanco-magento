@@ -1,0 +1,5 @@
+<?php echo $this->__('Entidade: %s', $this->htmlEscape($this->getInfo()->getIfthenpayEntidade())) ?>
+{{pdf_row_separator}}
+<?php echo utf8_encode($this->__('Referência: %s', $this->htmlEscape($this->getInfo()->getIfthenpayReferencia()))) ?>
+{{pdf_row_separator}}
+<?php echo $this->__('Montante: %s EUR', $this->htmlEscape($this->getInfo()->getIfthenpayMontante())) ?>
