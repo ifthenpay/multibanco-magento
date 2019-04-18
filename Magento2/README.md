@@ -56,9 +56,9 @@ Do you have some kind of a problem with your Magento installation?
 
 Do you need some special plugin?
 
-Send me an email and ask for help or a quote: ifthenpay@ifthenpay.com
+Send me an email and ask for help or a quote: manuelrocha@manuelrocha.biz
 
-My Website: www.ifthenpay.com
+My Website: www.manuelrocha.biz
 
 Found a bug?
 ============
