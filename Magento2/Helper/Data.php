@@ -75,12 +75,12 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     {
         $order = $this->_orderFactory->create()->load($orderid);
 
-        $this->createInvoiceService->createInvoice($order);
-
         $order->setState(\Magento\Sales\Model\Order::STATE_PROCESSING)
             ->setStatus($order->getConfig()->getStateDefaultStatus(\Magento\Sales\Model\Order::STATE_PROCESSING));
 
         $order->save();
+        
+        $this->createInvoiceService->createInvoice($order);
     }
 
     public function getOrderId($refid, $valor)
