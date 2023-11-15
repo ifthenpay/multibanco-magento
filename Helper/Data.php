@@ -1,13 +1,13 @@
 <?php
 /**
-* Ifthenpay_Multibanco module dependency
-*
-* @category    Gateway Payment
-* @package     Ifthenpay_Multibanco
-* @author      Manuel Rocha
-* @copyright   Manuel Rocha (http://www.manuelrocha.biz)
-* @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
-*/
+ * Ifthenpay_Multibanco module dependency
+ *
+ * @category    Gateway Payment
+ * @package     Ifthenpay_Multibanco
+ * @author      Manuel Rocha
+ * @copyright   Manuel Rocha (http://www.manuelrocha.biz)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
 
 namespace Ifthenpay\Multibanco\Helper;
 
@@ -21,6 +21,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
     public $_configTable;
     public $_orderTable;
+    public $_multibancoTable;
     public $connection;
 
     public $_orderFactory;
@@ -39,6 +40,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         \Magento\Sales\Model\OrderFactory $orderFactory,
         CreateInvoiceService $createInvoiceService
     ) {
+        $this->_multibancoTable = $resource->getTableName('ifthenpay_multibanco');
         $this->_configTable = $resource->getTableName('core_config_data');
         $this->_orderTable = $resource->getTableName('sales_order');
         $this->_orderFactory = $orderFactory;
@@ -79,7 +81,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
             ->setStatus($order->getConfig()->getStateDefaultStatus(\Magento\Sales\Model\Order::STATE_PROCESSING));
 
         $order->save();
-        
+
         $this->createInvoiceService->createInvoice($order);
     }
 
@@ -104,9 +106,9 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         );
 
         if ($chaveap == "" || $chaveap == null) {
-            $chaveap=md5(time());
+            $chaveap = md5(time());
 
-            $bindValues = ['path' => self::IFTHENPAY_ANTIPHISHING ];
+            $bindValues = ['path' => self::IFTHENPAY_ANTIPHISHING];
             $select = $this->connection->select()->from($this->_configTable)->where('path = :path');
             $exists = $this->connection->fetchOne($select, $bindValues);
 
@@ -133,4 +135,25 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
             )
         );
     }
+
+    public function saveIfthenpayPayment($data)
+    {
+        $this->connection->insert($this->_multibancoTable, $data);
+    }
+
+
+    public function getIfthenpayPaymentByOrderId($orderId)
+    {
+        $bindValues = ['order_id' => $orderId];
+        $select = $this->connection->select()->from($this->_multibancoTable)->where('order_id = :order_id');
+        $paymentData = $this->connection->fetchRow($select, $bindValues);
+
+        return $paymentData;
+    }
+
+
+
+
+
+
 }

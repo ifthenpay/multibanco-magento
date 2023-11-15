@@ -1,13 +1,13 @@
 <?php
 /**
-* Ifthenpay_Multibanco module dependency
-*
-* @category    Gateway Payment
-* @package     Ifthenpay_Multibanco
-* @author      Manuel Rocha
-* @copyright   Manuel Rocha (http://www.manuelrocha.biz)
-* @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
-*/
+ * Ifthenpay_Multibanco module dependency
+ *
+ * @category    Gateway Payment
+ * @package     Ifthenpay_Multibanco
+ * @author      Manuel Rocha
+ * @copyright   Manuel Rocha (http://www.manuelrocha.biz)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
 namespace Ifthenpay\Multibanco\Block\Checkout\Onepage\Success;
 
 class MultibancoInfo extends \Magento\Framework\View\Element\Template
@@ -56,9 +56,10 @@ class MultibancoInfo extends \Magento\Framework\View\Element\Template
         parent::__construct($context, $data);
     }
 
-    public function isIfthenpayMultibancoPayment(){
-        if ($this->getOrder()->getPayment()){
-            if($this->getOrder()->getPayment()->getMethod() == 'ifthenpay_multibanco') {
+    public function isIfthenpayMultibancoPayment()
+    {
+        if ($this->getOrder()->getPayment()) {
+            if ($this->getOrder()->getPayment()->getMethod() == 'ifthenpay_multibanco') {
                 return true;
             }
         }
@@ -67,18 +68,21 @@ class MultibancoInfo extends \Magento\Framework\View\Element\Template
 
     public function getEntidade()
     {
-        return $this->_ifthenpayMbHelper->getEntidade();
+        $orderId = $this->getOrder()->getRealOrderId();
+        $ifthenpayPaymentData = $this->_ifthenpayMbHelper->getIfthenpayPaymentByOrderId($orderId);
+        $entity = $ifthenpayPaymentData['entity'];
+
+        return $entity;
     }
 
     public function getReferencia($comEspacos = false)
     {
-        return $this->_genRef->GenerateMbRef(
-            $this->_ifthenpayMbHelper->getEntidade(),
-            $this->_ifthenpayMbHelper->getSubentidade(),
-            $this->getOrder()->getRealOrderId(),
-            $this->getOrder()->getGrandTotal(),
-            $comEspacos
-        );
+        $orderId = $this->getOrder()->getRealOrderId();
+        $ifthenpayPaymentData = $this->_ifthenpayMbHelper->getIfthenpayPaymentByOrderId($orderId);
+        $reference = $ifthenpayPaymentData['reference'];
+        $reference = substr($reference, 0, 3) . " " . substr($reference, 3, 3) . " " . substr($reference, 6, 3);
+
+        return $reference;
     }
 
     public function getValor()

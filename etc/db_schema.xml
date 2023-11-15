@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @category    Gateway Payment
+ * @package     Ifthenpay_Payment
+ * @author      Ifthenpay
+ * @copyright   Ifthenpay (https://www.ifthenpay.com)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+-->
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+    <table name="ifthenpay_multibanco" resource="default">
+        <column xsi:type="int" name="id" unsigned="true" nullable="false" identity="true"/>
+        <column xsi:type="varchar" name="entity" nullable="false" length="20" onCreate="migrateDataFrom(entidade)"/>
+        <column xsi:type="varchar" name="reference" nullable="false" length="50" onCreate="migrateDataFrom(referencia)"/>
+        <column xsi:type="varchar" name="order_id" nullable="false" length="250"/>
+        <column xsi:type="varchar" name="status" nullable="false" length="50"/>
+        <column xsi:type="varchar" name="deadline" nullable="true" length="15" onCreate="migrateDataFrom(validade)"/>
+        <column xsi:type="varchar" name="request_id" nullable="true" length="50" onCreate="migrateDataFrom(requestId)"/>
+        <column xsi:type="varchar" name="created_at" nullable="false" length="20"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="id"/>
+        </constraint>
+        <index referenceId="INDEX_REFERENCE" indexType="btree">
+            <column name="reference"/>
+        </index>
+        <index referenceId="INDEX_REQUESTID" indexType="btree">
+            <column name="request_id"/>
+        </index>
+    </table>
+</schema>

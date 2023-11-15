@@ -1,0 +1,21 @@
+{
+    "ifthenpay_multibanco": {
+        "column": {
+            "id": true,
+            "entity": true,
+            "reference": true,
+            "deadline": true,
+            "order_id": true,
+            "status": true,
+            "request_id": true,
+            "created_at": true
+        },
+        "index": {
+            "IFTHENPAY_MULTIBANCO_REFERENCE": true,
+            "IFTHENPAY_MULTIBANCO_REQUEST_ID": true
+        },
+        "constraint": {
+            "PRIMARY": true
+        }
+    }
+}
