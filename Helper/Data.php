@@ -151,7 +151,14 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         return $paymentData;
     }
 
+    public function getIfthenpayPaymentByReference($reference)
+    {
+        $bindValues = ['reference' => $reference];
+        $select = $this->connection->select()->from($this->_multibancoTable)->where('reference = :reference');
+        $paymentData = $this->connection->fetchRow($select, $bindValues);
 
+        return $paymentData;
+    }
 
 
 

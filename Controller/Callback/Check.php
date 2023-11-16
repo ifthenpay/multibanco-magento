@@ -1,13 +1,13 @@
 <?php
 /**
-* Ifthenpay_Multibanco module dependency
-*
-* @category    Gateway Payment
-* @package     Ifthenpay_Multibanco
-* @author      Manuel Rocha
-* @copyright   Manuel Rocha (http://www.manuelrocha.biz)
-* @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
-*/
+ * Ifthenpay_Multibanco module dependency
+ *
+ * @category    Gateway Payment
+ * @package     Ifthenpay_Multibanco
+ * @author      Manuel Rocha
+ * @copyright   Manuel Rocha (http://www.manuelrocha.biz)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
 
 namespace Ifthenpay\Multibanco\Controller\Callback;
 
@@ -25,22 +25,32 @@ class Check extends \Magento\Framework\App\Action\Action
 
     public function execute()
     {
-        $resultado = '-1';
-        if (!$this->_ifthenpayMbHelper->checkIfAntiPhishingIsValid($this->getRequest()->getParam('k'))) {
-            $resultado = '1000 - NOT OK';
-        } else {
-            $referencia = $this->getRequest()->getParam('r');
-            $refid = (int)(substr($referencia, 3, 4));
-            $valor = $this->getRequest()->getParam('v');
+        try {
 
-            $orderId = $this->_ifthenpayMbHelper->getOrderId($refid, $valor);
-
-            if ($orderId != "" || $orderId != null) {
-                $this->_ifthenpayMbHelper->setOrderAsPaid($orderId);
-                $resultado = '1200 - OK';
+            $resultado = '-1';
+            if (!$this->_ifthenpayMbHelper->checkIfAntiPhishingIsValid($this->getRequest()->getParam('k'))) {
+                $resultado = '1000 - NOT OK';
             } else {
-                $resultado = '1404 - NOT FOUND';
+                $referencia = $this->getRequest()->getParam('r');
+                $valor = $this->getRequest()->getParam('v');
+
+                $paymentData = $this->_ifthenpayMbHelper->getIfthenpayPaymentByReference($referencia);
+
+                if (
+                    $paymentData &&
+                    $paymentData['order_id'] != '' &&
+                    $this->_ifthenpayMbHelper->getOrderId($paymentData['order_id'], $valor) != '' &&
+                    $this->_ifthenpayMbHelper->getOrderId($paymentData['order_id'], $valor) != null
+                ) {
+                    $this->_ifthenpayMbHelper->setOrderAsPaid($paymentData['order_id']);
+                    $resultado = '1200 - OK';
+                } else {
+                    $resultado = '1404 - NOT FOUND';
+                }
             }
+
+        } catch (\Throwable $th) {
+            $resultado = '1404 - ERROR';
         }
 
         $this->getResponse()->setBody($resultado);
