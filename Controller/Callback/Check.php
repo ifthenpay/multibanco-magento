@@ -36,13 +36,13 @@ class Check extends \Magento\Framework\App\Action\Action
 
                 $paymentData = $this->_ifthenpayMbHelper->getIfthenpayPaymentByReference($referencia);
 
+                $orderId = $this->_ifthenpayMbHelper->getOrderId($paymentData['order_id'], $valor);
+
                 if (
-                    $paymentData &&
-                    $paymentData['order_id'] != '' &&
-                    $this->_ifthenpayMbHelper->getOrderId($paymentData['order_id'], $valor) != '' &&
-                    $this->_ifthenpayMbHelper->getOrderId($paymentData['order_id'], $valor) != null
+                    $orderId != '' &&
+                    $orderId != null
                 ) {
-                    $this->_ifthenpayMbHelper->setOrderAsPaid($paymentData['order_id']);
+                    $this->_ifthenpayMbHelper->setOrderAsPaid($orderId);
                     $resultado = '1200 - OK';
                 } else {
                     $resultado = '1404 - NOT FOUND';

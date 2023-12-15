@@ -139,6 +139,8 @@ class Multibanco extends \Magento\Payment\Block\Info
                 'order_id' => $orderId,
                 'reference' => $dynamicReferenceResponse['Reference'],
             ];
+            $reference = $dynamicReferenceResponse['Reference'];
+
         } else {
             $reference = $this->_genRef->GenerateMbRef(
                 $entity,
