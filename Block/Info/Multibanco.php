@@ -67,9 +67,22 @@ class Multibanco extends \Magento\Payment\Block\Info
             return $entity;
         }
 
-        // if not get if from config record in db config
+        $entity = $this->_ifthenpayMbHelper->getEntidade();
 
-        return $this->_ifthenpayMbHelper->getEntidade();
+        // if MB dynamic make the request, store the payment data and get the generated entity
+        if ($entity == 'MB') {
+            $this->getReferenciaFront();
+
+            $ifthenpayPaymentData = $this->getIfthenpayPaymentData();
+            if ($ifthenpayPaymentData) {
+                $entity = $ifthenpayPaymentData['entity'];
+
+                return $entity;
+            }
+
+        }
+
+        return $entity;
     }
 
     public function getReferenciaAdmin($comEspacos = false)
