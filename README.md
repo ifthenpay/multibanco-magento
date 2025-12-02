@@ -1,3 +1,10 @@
+# ❌ Warning version deprecation
+
+    This version will not receive updates, bug fixes, or security patches.
+    This version will not receive technical support.
+    It is strongly recommended to upgrade to Magento 2 most recent available extensions.
+Most recent versions available at [GitHub](https://github.com/ifthenpay/magento2)
+
 Ifthenpay module for Magento
 ==============
 ![Multibanco](https://ifthenpay.com/img/mb.jpg)
